@@ -30,5 +30,7 @@ class ComponenteDinamico extends HTMLElement{
     quitarEstilo(estilo: HTMLStyleElement){
         estilo.parentElement?.removeChild(estilo);
     }
+
+    /*mapeo automatico a campos*/
 }
 customElements.define('componente-dinamico', ComponenteDinamico);

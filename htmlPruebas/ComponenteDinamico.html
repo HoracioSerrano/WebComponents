@@ -7,9 +7,14 @@
     <title>Document</title>
 </head>
 <body id="body">
-    <componente-dinamico id = "cd"></componente-dinamico>
+    <componente-dinamico id = "cd">
+        <div id="d2"></div>
+        <style>
+            #d2{width: 20px; height: 20px; background-color: aqua;}
+        </style>
+    </componente-dinamico>
 </body>
-<script>
+<script>/*
     let cd = document.getElementById("cd");
     let div = document.createElement('div');
     div.setAttribute("id", "d");
@@ -18,7 +23,7 @@
     let e="#d{width: 20px; height: 20px; background-color: aqua;}";
     cd.apendizarEstilo(e);
     let e0 = cd.estilos[0];
-    cd.quitarEstilo(e0);
+    cd.quitarEstilo(e0);*/
 </script>
 
 </html>
