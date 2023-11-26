@@ -1,11 +1,15 @@
 "use strict";
 class ComponenteDinamico extends HTMLElement {
     constructor(conSombra) {
+        var _a;
         super();
         this.estilos = new Array();
         if (conSombra == true) {
             this.attachShadow({ mode: 'open' });
         }
+        let d = document.createElement('div');
+        d.setAttribute('atributo', 'atributo');
+        (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.appendChild(d);
     }
     apendizarEstilo(estilo) {
         var _a, _b;

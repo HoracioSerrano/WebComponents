@@ -1,10 +1,16 @@
+
+
+
 class ComponenteDinamico extends HTMLElement{
     private estilos: Array<HTMLStyleElement|HTMLLinkElement> = new Array();
     constructor(conSombra:boolean|null){
         super();
         if (conSombra==true){
             this.attachShadow({mode:'open'});
-        }        
+        }
+        let d = document.createElement('div');
+        d.setAttribute('atributo','atributo');
+        this.shadowRoot?.appendChild(d);        
     }
     apendizarEstilo(estilo: string|HTMLStyleElement|HTMLLinkElement){
         let nodoEstilo: HTMLStyleElement;
@@ -34,3 +40,5 @@ class ComponenteDinamico extends HTMLElement{
     /*mapeo automatico a campos*/
 }
 customElements.define('componente-dinamico', ComponenteDinamico);
+
+
