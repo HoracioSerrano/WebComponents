@@ -47,7 +47,7 @@ class Ventana extends HTMLElement {
         this.style.zIndex = '9';
         this.style.backgroundColor = "#f1f1f1";
         this.style.border = "1px solid #d3d3d3";
-        this.style.textAlign = "center";
+        //this.style.textAlign="center";
         this.dragElement(this);
         this.btn_minimizar.onclick = () => { this.minimizar(this); };
         this.btn_restaurar.onclick = () => { this.restaurar(this); };
