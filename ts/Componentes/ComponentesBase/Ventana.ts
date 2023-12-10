@@ -7,24 +7,47 @@ class Ventana extends HTMLElement {
                 z-index: 10;
                 background-color: #2196F3;
                 color: #fff;
+                display: flex; 
+                flex-direction: row; 
+                justify-content: space-between; 
+                align-items: center;
             }
         </style>
         <div id='encabezado'>
-            Click para arrastrar
+            <div>
+                <p id='titulo' style="margin: 0px;">Titulo</p>
+            </div>
+            <div>
+                <button id='btn_minimizar'>_</button>
+                <button id='btn_restaurar'>[]</button>
+                <button id='btn_cerrar'>X</button>
+            </div>
         </div>
         <div id='cuerpo'>
             <slot>
         </div>
-    `;      
+    `;
+    me: Ventana;      
     encabezado: HTMLDivElement;
+    titulo: HTMLParagraphElement;
+    btn_minimizar: HTMLButtonElement;
+    btn_restaurar: HTMLButtonElement;
+    btn_cerrar: HTMLButtonElement;
+    cuerpo: HTMLDivElement;
     shadow: ShadowRoot;
     constructor() {
         super();
+        this.me = this;
         this.shadow = this.attachShadow({ mode: "open" });
         let temp = document.createElement('template');
         temp.innerHTML = this.template;
         this.shadow.appendChild(temp.content.cloneNode(true));
         this.encabezado = (this.shadow.getElementById('encabezado') as HTMLDivElement);
+        this.titulo = (this.shadow.getElementById('titulo') as HTMLParagraphElement);
+        this.btn_minimizar = (this.shadow.getElementById('btn_minimizar') as HTMLButtonElement);
+        this.btn_restaurar = (this.shadow.getElementById('btn_restaurar') as HTMLButtonElement);
+        this.btn_cerrar = (this.shadow.getElementById('btn_cerrar') as HTMLButtonElement);
+        this.cuerpo = (this.shadow.getElementById('cuerpo') as HTMLDivElement);
     }
     connectedCallback(){
         this.style.position="fixed";
@@ -32,7 +55,10 @@ class Ventana extends HTMLElement {
         this.style.backgroundColor="#f1f1f1";
         this.style.border="1px solid #d3d3d3";
         this.style.textAlign="center";
-        this.dragElement(this);            
+        this.dragElement(this);
+        this.btn_minimizar.onclick = ()=>{this.minimizar(this)};
+        this.btn_restaurar.onclick = ()=>{this.restaurar(this)}
+        this.btn_cerrar.onclick = ()=>{this.cerrar(this)};       
     }
     dragElement(elmnt:Ventana) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -64,6 +90,15 @@ class Ventana extends HTMLElement {
             document.onmouseup = null;
             document.onmousemove = null;
         }
+    }
+    minimizar(ventana:Ventana){
+        ventana.cuerpo.style.display="none";
+    }
+    restaurar(ventana:Ventana){
+        ventana.cuerpo.style.display="block";
+    }
+    cerrar(ventana:Ventana){
+        ventana.parentElement?.removeChild(ventana);
     }
 }
 customElements.define("ventana-arrastrable", Ventana);

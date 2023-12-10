@@ -10,20 +10,37 @@ class Ventana extends HTMLElement {
                 z-index: 10;
                 background-color: #2196F3;
                 color: #fff;
+                display: flex; 
+                flex-direction: row; 
+                justify-content: space-between; 
+                align-items: center;
             }
         </style>
         <div id='encabezado'>
-            Click para arrastrar
+            <div>
+                <p id='titulo' style="margin: 0px;">Titulo</p>
+            </div>
+            <div>
+                <button id='btn_minimizar'>_</button>
+                <button id='btn_restaurar'>[]</button>
+                <button id='btn_cerrar'>X</button>
+            </div>
         </div>
         <div id='cuerpo'>
             <slot>
         </div>
     `;
+        this.me = this;
         this.shadow = this.attachShadow({ mode: "open" });
         let temp = document.createElement('template');
         temp.innerHTML = this.template;
         this.shadow.appendChild(temp.content.cloneNode(true));
         this.encabezado = this.shadow.getElementById('encabezado');
+        this.titulo = this.shadow.getElementById('titulo');
+        this.btn_minimizar = this.shadow.getElementById('btn_minimizar');
+        this.btn_restaurar = this.shadow.getElementById('btn_restaurar');
+        this.btn_cerrar = this.shadow.getElementById('btn_cerrar');
+        this.cuerpo = this.shadow.getElementById('cuerpo');
     }
     connectedCallback() {
         this.style.position = "fixed";
@@ -32,6 +49,9 @@ class Ventana extends HTMLElement {
         this.style.border = "1px solid #d3d3d3";
         this.style.textAlign = "center";
         this.dragElement(this);
+        this.btn_minimizar.onclick = () => { this.minimizar(this); };
+        this.btn_restaurar.onclick = () => { this.restaurar(this); };
+        this.btn_cerrar.onclick = () => { this.cerrar(this); };
     }
     dragElement(elmnt) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -63,6 +83,16 @@ class Ventana extends HTMLElement {
             document.onmouseup = null;
             document.onmousemove = null;
         }
+    }
+    minimizar(ventana) {
+        ventana.cuerpo.style.display = "none";
+    }
+    restaurar(ventana) {
+        ventana.cuerpo.style.display = "block";
+    }
+    cerrar(ventana) {
+        var _a;
+        (_a = ventana.parentElement) === null || _a === void 0 ? void 0 : _a.removeChild(ventana);
     }
 }
 customElements.define("ventana-arrastrable", Ventana);
