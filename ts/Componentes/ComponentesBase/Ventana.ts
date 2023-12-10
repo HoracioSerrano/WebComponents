@@ -20,7 +20,7 @@ class Ventana extends HTMLElement {
             Click para arrastrar
         </div>
         <div id='cuerpo'>
-            cuerpo
+            <slot><slot>
         </div>
     `;
     
