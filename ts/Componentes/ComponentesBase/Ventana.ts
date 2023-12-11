@@ -56,9 +56,9 @@ class Ventana extends HTMLElement {
         this.style.border="1px solid #d3d3d3";
         //this.style.textAlign="center";
         this.dragElement(this);
-        this.btn_minimizar.onclick = ()=>{this.minimizar(this)};
-        this.btn_restaurar.onclick = ()=>{this.restaurar(this)}
-        this.btn_cerrar.onclick = ()=>{this.cerrar(this)};       
+        this.btn_minimizar.onclick = this.minimizar.bind(this);
+        this.btn_restaurar.onclick = this.restaurar.bind(this);
+        this.btn_cerrar.onclick = this.cerrar.bind(this);       
     }
     dragElement(elmnt:Ventana) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -91,14 +91,25 @@ class Ventana extends HTMLElement {
             document.onmousemove = null;
         }
     }
-    minimizar(ventana:Ventana){
-        ventana.cuerpo.style.display="none";
+    minimizar(){
+        this.cuerpo.style.display="none";
     }
-    restaurar(ventana:Ventana){
-        ventana.cuerpo.style.display="block";
+    restaurar(){
+        this.cuerpo.style.display="block";
     }
-    cerrar(ventana:Ventana){
-        ventana.parentElement?.removeChild(ventana);
-    }
+    cerrar(){
+        /*Si es cierto que este elemento esta en un shadow root 
+        y es cierto que ese shadow root esta dentro de un host, 
+        llama al padre del host y eliminalo*/
+        const root:ShadowRoot = this.getRootNode() as ShadowRoot;
+        const host = root.host;
+        if (root != null && root != undefined && host != null && host != undefined){
+            try {
+                host.parentElement?.removeChild(host);
+            }catch{}
+        }else{
+            this.parentElement?.removeChild(this);
+        }
+    }    
 }
 customElements.define("ventana-arrastrable", Ventana);
