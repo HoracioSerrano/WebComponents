@@ -13,7 +13,37 @@ class Ventana extends HTMLElement {
                 display: flex; 
                 flex-direction: row; 
                 justify-content: space-between; 
+                align-items: center;                
+            }         
+            #spinner{
+                position:absolute;
+                width:100%;
+                height:100%;
+                display:none;
+                flex-direction: column;
+                justify-content: center;
                 align-items: center;
+                background-color: rgba(255,255,255,0.7);
+            }
+            #animation {
+                content:'';
+                display:block;
+                width:40px;height:40px;
+                border-style:solid;
+                border-color:black;
+                border-top-color:transparent;
+                border-width: 4px;
+                border-radius:50%;
+                -webkit-animation: spin .8s linear infinite;
+                animation: spin .8s linear infinite;
+            }            
+            @-webkit-keyframes spin {
+                from {-webkit-transform:rotate(0deg);}
+                to {-webkit-transform:rotate(360deg);}
+            }            
+            @keyframes spin {
+                from {transform:rotate(0deg);}
+                to {transform:rotate(360deg);}
             }
         </style>
         <div id='encabezado'>
@@ -26,8 +56,9 @@ class Ventana extends HTMLElement {
                 <button id='btn_cerrar'>X</button>
             </div>
         </div>
-        <div id='cuerpo'>
-            <slot>
+        <div id='cuerpo' style='position:relative;'>
+            <div id='spinner'><div id='animation'></div></div>
+            <slot id = 'slot'>
         </div>
     `;
         this.me = this;
@@ -41,17 +72,17 @@ class Ventana extends HTMLElement {
         this.btn_restaurar = this.shadow.getElementById('btn_restaurar');
         this.btn_cerrar = this.shadow.getElementById('btn_cerrar');
         this.cuerpo = this.shadow.getElementById('cuerpo');
+        this.spinner = this.shadow.getElementById('spinner');
     }
     connectedCallback() {
         this.style.position = "fixed";
-        this.style.zIndex = '9';
         this.style.backgroundColor = "#f1f1f1";
         this.style.border = "1px solid #d3d3d3";
-        //this.style.textAlign="center";
         this.dragElement(this);
         this.btn_minimizar.onclick = this.minimizar.bind(this);
         this.btn_restaurar.onclick = this.restaurar.bind(this);
         this.btn_cerrar.onclick = this.cerrar.bind(this);
+        this.onmousedown = this.traerAlFrente.bind(this);
     }
     dragElement(elmnt) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -107,5 +138,18 @@ class Ventana extends HTMLElement {
             (_b = this.parentElement) === null || _b === void 0 ? void 0 : _b.removeChild(this);
         }
     }
+    traerAlFrente() {
+        Ventana.z = Ventana.z + 1;
+        this.style.zIndex = Ventana.z.toString();
+    }
+    bloquear(bloquear) {
+        if (bloquear) {
+            this.spinner.style.display = 'flex';
+        }
+        else {
+            this.spinner.style.display = 'none';
+        }
+    }
 }
+Ventana.z = 1;
 customElements.define("ventana-arrastrable", Ventana);
