@@ -6,23 +6,18 @@ class UsaVentana extends HTMLElement {
             </div>
         </ventana-arrastrable>
     `;
-    ventana?: Ventana;
+    ventana: Ventana;
     shadow: ShadowRoot;
     constructor() {
         super();           
         this.shadow = this.attachShadow({ mode: "open" });
-
         let temp = document.createElement('template');
         temp.innerHTML = this.template;
         this.shadow.appendChild(temp.content.cloneNode(true));
         this.ventana = this.shadow.getElementById("ventana") as Ventana;
-        //this.ventana.btn_cerrar.onclick = this.cerrar.bind(this);
     }
     connectedCallback(){
-
+        this.ventana?.bloquear(true);
     }
-    /*cerrar (){
-        this.parentElement?.removeChild(this);
-    }*/
 }
 customElements.define("usa-ventana", UsaVentana);

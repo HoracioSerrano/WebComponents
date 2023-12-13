@@ -14,9 +14,10 @@ class UsaVentana extends HTMLElement {
         temp.innerHTML = this.template;
         this.shadow.appendChild(temp.content.cloneNode(true));
         this.ventana = this.shadow.getElementById("ventana");
-        //this.ventana.btn_cerrar.onclick = this.cerrar.bind(this);
     }
     connectedCallback() {
+        var _a;
+        (_a = this.ventana) === null || _a === void 0 ? void 0 : _a.bloquear(true);
     }
 }
 customElements.define("usa-ventana", UsaVentana);
