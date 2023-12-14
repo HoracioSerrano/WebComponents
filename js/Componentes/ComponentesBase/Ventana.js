@@ -115,6 +115,14 @@ class Ventana extends HTMLElement {
             document.onmousemove = null;
         }
     }
+    attributeChangedCallback(atributo, viejoValor, nuevoValor) {
+        if (atributo == 'titulo') {
+            this.titulo.childNodes.forEach(element => {
+                this.titulo.removeChild(element);
+            });
+            this.titulo.appendChild(document.createTextNode(nuevoValor));
+        }
+    }
     minimizar() {
         this.cuerpo.style.display = "none";
     }
@@ -151,5 +159,6 @@ class Ventana extends HTMLElement {
         }
     }
 }
+Ventana.observedAttributes = ["titulo"];
 Ventana.z = 1;
 customElements.define("ventana-arrastrable", Ventana);

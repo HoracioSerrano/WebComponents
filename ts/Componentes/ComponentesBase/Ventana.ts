@@ -1,4 +1,5 @@
-class Ventana extends HTMLElement {    
+class Ventana extends HTMLElement {
+    static observedAttributes:string[] = ["titulo"];    
     template:string = `
         <style>  
             #encabezado {
@@ -124,6 +125,17 @@ class Ventana extends HTMLElement {
             document.onmousemove = null;
         }
     }
+
+    attributeChangedCallback(atributo:string, viejoValor:string, nuevoValor:string) {
+        if (atributo=='titulo'){
+            this.titulo.childNodes.forEach(element => {
+                this.titulo.removeChild(element);
+            });
+            this.titulo.appendChild(document.createTextNode(nuevoValor))
+        }
+    }
+
+
     minimizar(){
         this.cuerpo.style.display="none";
     }

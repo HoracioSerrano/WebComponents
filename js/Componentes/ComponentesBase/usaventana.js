@@ -3,7 +3,7 @@ class UsaVentana extends HTMLElement {
     constructor() {
         super();
         this.template = `
-        <ventana-arrastrable id="ventana">
+        <ventana-arrastrable id="ventana" titulo="Titulo como atributo">
             <div style="height: 300px; width: 400px; background-color: beige;">
                 <button>boton</button>
             </div>
@@ -16,8 +16,6 @@ class UsaVentana extends HTMLElement {
         this.ventana = this.shadow.getElementById("ventana");
     }
     connectedCallback() {
-        var _a;
-        (_a = this.ventana) === null || _a === void 0 ? void 0 : _a.bloquear(true);
     }
 }
 customElements.define("usa-ventana", UsaVentana);
