@@ -83,6 +83,7 @@ class Ventana extends HTMLElement {
         this.btn_restaurar.onclick = this.restaurar.bind(this);
         this.btn_cerrar.onclick = this.cerrar.bind(this);
         this.onmousedown = this.traerAlFrente.bind(this);
+        this.traerAlFrente();
     }
     dragElement(elmnt) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
